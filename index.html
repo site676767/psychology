@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Психологический тест | Оценка устойчивости</title>
+    <link rel="icon" href="porfd.png">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: linear-gradient(145deg, #2b3a4a 0%, #1d2a35 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+            margin: 0;
+        }
+
+        .card {
+            max-width: 720px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            border-radius: 40px;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+            padding: 32px 28px;
+            transition: all 0.2s ease;
+        }
+
+        h1 {
+            font-size: 2.1rem;
+            font-weight: 600;
+            color: #1e2f3d;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 3px solid #5f9ea0;
+            padding-bottom: 18px;
+        }
+
+        h1 span {
+            background: #1e2f3d;
+            color: white;
+            font-size: 1.2rem;
+            padding: 5px 14px;
+            border-radius: 60px;
+            font-weight: 500;
+        }
+
+        .progress-container {
+            background: #d9e2e7;
+            height: 26px;
+            border-radius: 40px;
+            margin: 24px 0 20px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #5f9ea0, #3a7b8a);
+            border-radius: 40px;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 12px #7acfd6;
+        }
+
+        .percentage-badge {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1e3b4a;
+            background: #eef5f7;
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 40px;
+            margin-bottom: 20px;
+            border: 1px solid #b0cfd3;
+        }
+
+        .question-box {
+            background: white;
+            border-radius: 30px;
+            padding: 28px 22px;
+            margin: 16px 0 26px;
+            box-shadow: 0 10px 20px rgba(0, 20, 20, 0.2);
+            border: 1px solid #cbdbe0;
+        }
+
+        .question-text {
+            font-size: 1.6rem;
+            font-weight: 550;
+            line-height: 1.3;
+            color: #10313c;
+            margin-bottom: 32px;
+        }
+
+        .answers {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .answer-btn {
+            background: #f2f9fc;
+            border: 2px solid #86bac7;
+            color: #15404d;
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 14px 32px;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.1s ease;
+            flex: 1 1 160px;
+            box-shadow: 0 4px 0 #618b96;
+        }
+
+        .answer-btn:hover {
+            background: #d5eff5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #4f737e;
+        }
+
+        .answer-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #4f737e;
+        }
+
+        .restart-btn {
+            background: #314e5c;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.15s;
+            box-shadow: 0 5px 0 #1a2e38;
+            margin-top: 10px;
+            border: 1px solid #59838d;
+        }
+
+        .restart-btn:hover {
+            background: #3f6375;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 0 #1a2e38;
+        }
+
+        .result-area {
+            background: #dbeaf0;
+            border-radius: 32px;
+            padding: 30px 24px;
+            text-align: center;
+            border: 2px solid #aac9d2;
+            margin: 25px 0 15px;
+        }
+
+        .verdict {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #003153;
+            margin-bottom: 15px;
+        }
+
+        .description {
+            font-size: 1.3rem;
+            color: #1a4656;
+            margin-bottom: 18px;
+            font-weight: 500;
+        }
+
+        .help-phone {
+            background: #c12b2b;
+            color: white;
+            font-size: 1.6rem;
+            font-weight: 700;
+            padding: 18px 15px;
+            border-radius: 60px;
+            letter-spacing: 1px;
+            margin: 22px 0 5px;
+            border: 3px solid #ffbaba;
+            animation: gentlePulse 1.8s infinite;
+        }
+
+        @keyframes gentlePulse {
+            0% { background-color: #b12828; box-shadow: 0 0 0 0 #ec7e7e; }
+            50% { background-color: #d33a3a; box-shadow: 0 0 15px 5px #ff8a8a; }
+            100% { background-color: #b12828; box-shadow: 0 0 0 0 #ec7e7e; }
+        }
+
+        .help-phone a {
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
+
+        .phone-number {
+            font-size: 2.1rem;
+            background: #ffffff30;
+            border-radius: 50px;
+            padding: 6px 20px;
+            margin-top: 8px;
+        }
+
+        .small-note {
+            color: #295763;
+            font-size: 1rem;
+            margin-top: 20px;
+        }
+
+        .warning-marker {
+            background: #edb7b7;
+            color: #970000;
+            padding: 6px 15px;
+            border-radius: 40px;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            color: #bfd6dd;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="card" id="app">
+        <h1>🧠 Психометрия <span>стабильность</span></h1>
+
+        <!-- Прогресс и процент -->
+        <div class="progress-container">
+            <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+        </div>
+        <div class="percentage-badge" id="percentDisplay">0%</div>
+
+        <!-- Область вопроса / результата -->
+        <div id="quizZone">
+            <!-- сюда динамически вставляются вопросы или результат -->
+        </div>
+
+        <button class="restart-btn" id="restartBtn">🔄 Пройти заново</button>
+        <footer>— честный тест для самодиагностики —</footer>
+    </div>
+
+    <script>
+        (function() {
+            // ----- ВОПРОСЫ (придуманы для психологического фона) -----
+            const questions = [
+                { text: "Вы часто чувствуете тревогу без причины?" },
+                { text: "Вам трудно заснуть из-за мыслей?" },
+                { text: "Вы когда-нибудь хотели уйти из жизни?", critical: true }, // особый
+                { text: "Вам кажется, что будущее безнадежно?" },
+                { text: "Вы легко раздражаетесь по мелочам?" },
+                { text: "Вы чувствуете себя одиноким, даже среди людей?" },
+                { text: "Вам трудно контролировать свои эмоции?" },
+                { text: "Вы замечаете перепады настроения за последнее время?" },
+                { text: "Вы потеряли интерес к тому, что раньше нравилось?" },
+                { text: "Вам кажется, что вы никому не нужны?" }
+            ];
+
+            // ----- СОСТОЯНИЕ ПРИЛОЖЕНИЯ -----
+            let currentIndex = 0;               // индекс текущего вопроса (0..9)
+            let knowledgePoints = 50;            // стартовый "уровень знаний/ума" (от 1 до 100) — по логике ТЗ, у всех начало 50?
+            let testFinished = false;
+            let helpTriggered = false;           // был ли уже показан экстренный номер в этом прохождении?
+
+            // Контейнеры
+            const quizZone = document.getElementById('quizZone');
+            const progressFill = document.getElementById('progressFill');
+            const percentDisplay = document.getElementById('percentDisplay');
+            const restartBtn = document.getElementById('restartBtn');
+
+            // ----- ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ -----
+            function updateProgressAndPercent() {
+                // прогресс бар = сколько вопросов пройдено (не зависит от результата)
+                let totalQuestions = questions.length;
+                let answeredCount = Math.min(currentIndex, totalQuestions); // сколько вопросов показано (ответили)
+                let percentProgress = (answeredCount / totalQuestions) * 100;
+                progressFill.style.width = percentProgress + '%';
+
+                // Округляем knowledgePoints от 0 до 100, но не выше 100 и не ниже 1
+                let displayPercent = Math.min(100, Math.max(1, Math.round(knowledgePoints)));
+                percentDisplay.innerText = displayPercent + '%';
+            }
+
+            // Показать итоговый результат на основе knowledgePoints (процент)
+            function renderResultScreen() {
+                let rawPercent = Math.min(100, Math.max(1, Math.round(knowledgePoints)));
+                let percent = rawPercent;
+
+                let verdict = '';
+                let description = '';
+
+                // Формируем описания по шкале из ТЗ (от 1 до 100)
+                if (percent < 10) {
+                    verdict = '🧩 2% — очень низкий порог';
+                    description = 'Неустойчивая психика, ум не созрел. Ранний этап. Рекомендуется щадящий режим и консультация.';
+                } else if (percent >= 10 && percent <= 39) {
+                    verdict = '⚡ 10%–39%: слабая психика';
+                    description = 'Психика ослаблена, ум vulnerable. Нужна бережная поддержка.';
+                } else if (percent >= 40 && percent <= 55) {
+                    verdict = '🌿 40%–55%: средняя психика, ум слабоват';
+                    description = 'Психика средняя, ум слабый. Есть потенциал, но требуется стабильность.';
+                } else if (percent >= 56 && percent <= 59) {
+                    verdict = '🌤️ 56%: психика средняя, ум средний';
+                    description = 'Средняя устойчивость, ум средний. Можно развивать дальше.';
+                } else if (percent >= 60 && percent <= 89) {
+                    verdict = '💪 60%–89%: умный, развитый, психика хорошо';
+                    description = 'Хороший уровень! Ум развит, психика устойчива.';
+                } else if (percent >= 90 && percent <= 99) {
+                    verdict = '🌟 90%–99%: отличная психика и ум';
+                    description = 'Высокий порог стабильности. Отличная устойчивость.';
+                } else if (percent >= 100) {
+                    verdict = '🏆 100%: зрелый, развитый, грандиозно';
+                    description = 'Ты умный, развитый, психика в порядке. Полная зрелость!';
+                }
+
+                // Доп проверка на случай, если вышло меньше 1% (но мы ограничили)
+                if (percent < 2) percent = 2; // для сообщения
+
+                let helpHtml = '';
+                // Если был задет критический вопрос с ответом "НЕТ" (helpTriggered === true) ИЛИ процент ниже 20?
+                // Но согласно ТЗ: если на вопрос про уход из жизни нажал "нет" — здоров, иначе (т.е. если "да") — отнимаем знание и показываем номер.
+                // У нас helpTriggered устанавливается в true, если на критический вопрос ответили "Да".
+                if (helpTriggered) {
+                    helpHtml = `
+                        <div class="help-phone">
+                            ⚠️ Вам нужна помощь ⚠️<br>
+                            <div class="phone-number">
+                                📞 <a href="tel:+74951234567">8-495-123-45-67</a>
+                            </div>
+                            <div style="font-size:1rem; margin-top:10px;">(круглосуточно, анонимно)</div>
+                        </div>
+                    `;
+                } else if (percent < 30) {
+                    // Если низкий процент, но не было критического "да", всё равно предложим номер (забота)
+                    helpHtml = `
+                        <div class="help-phone" style="background: #447777;">
+                            🫂 Рекомендуем поддержку<br>
+                            <div class="phone-number">📞 <a href="tel:+78005553535">8-800-555-35-35</a></div>
+                        </div>
+                    `;
+                }
+
+                const resultHTML = `
+                    <div class="result-area">
+                        <div class="verdict">${verdict}</div>
+                        <div class="description">${description}</div>
+                        <div style="font-size:1.8rem; font-weight:800; margin:15px 0; color:#0d3c4a;">${percent}%</div>
+                        ${helpHtml}
+                        <div class="small-note">Основано на ваших ответах. Если плохо — обратитесь к специалисту.</div>
+                    </div>
+                `;
+                quizZone.innerHTML = resultHTML;
+            }
+
+            // Отобразить вопрос по индексу currentIndex
+            function renderQuestion() {
+                if (testFinished || currentIndex >= questions.length) {
+                    testFinished = true;
+                    renderResultScreen();
+                    updateProgressAndPercent(); // обновим %
+                    return;
+                }
+
+                const q = questions[currentIndex];
+                // Строим разметку вопроса
+                const questionHtml = `
+                    <div class="question-box">
+                        <div class="question-text">${currentIndex+1}. ${q.text}</div>
+                        <div class="answers">
+                            <button class="answer-btn" data-answer="yes">✅ Да</button>
+                            <button class="answer-btn" data-answer="no">❌ Нет</button>
+                        </div>
+                    </div>
+                `;
+                quizZone.innerHTML = questionHtml;
+
+                // Навешиваем обработчики на кнопки ответов
+                const yesBtn = document.querySelector('[data-answer="yes"]');
+                const noBtn = document.querySelector('[data-answer="no"]');
+                if (yesBtn) yesBtn.addEventListener('click', () => handleAnswer('yes'));
+                if (noBtn) noBtn.addEventListener('click', () => handleAnswer('no'));
+
+                updateProgressAndPercent();
+            }
+
+            // Логика ответа
+            function handleAnswer(answer) {
+                if (testFinished) return;
+
+                const currentQ = questions[currentIndex];
+                let pointsDelta = 0;
+
+                // --- базовая логика изменения "knowledgePoints" (ума/знания) ---
+                // За "Нет" обычно повышаем стабильность, за "Да" понижаем (кроме особого вопроса)
+                if (answer === 'yes') {
+                    pointsDelta = -3;  // да = тревожный ответ = минус к уровню
+                } else { // 'no'
+                    pointsDelta = +4;  // нет = здоровый ответ = плюс к уровню
+                }
+
+                // --- ОСОБЫЙ КРИТИЧЕСКИЙ ВОПРОС (про уход из жизни) ---
+                if (currentQ.critical) {
+                    if (answer === 'yes') {
+                        // Если нажал "ДА" (хочешь уйти) – отнимаем уровень и показываем номер
+                        knowledgePoints -= 15;      // значительное снижение (знание падает)
+                        helpTriggered = true;        // включаем номер телефона в результате
+                    } else {
+                        // Ответ "НЕТ" – ты здоров, добавляем баллы, и номер НЕ показываем
+                        knowledgePoints += 12;       // здоровый ответ укрепляет
+                        // helpTriggered остаётся false (если ранее не был true)
+                    }
+                } else {
+                    // обычный вопрос: применяем стандартные дельты
+                    knowledgePoints += pointsDelta;
+                }
+
+                // Проверка границ (чтобы не уходило за 1..100)
+                knowledgePoints = Math.min(100, Math.max(1, knowledgePoints));
+
+                // Переходим к след. вопросу
+                currentIndex++;
+
+                // Если вопросы кончились – завершаем тест
+                if (currentIndex >= questions.length) {
+                    testFinished = true;
+                    renderResultScreen();
+                } else {
+                    renderQuestion(); // следующий вопрос
+                }
+
+                // Обновить процент и прогресс
+                updateProgressAndPercent();
+            }
+
+            // Сброс теста
+            function restartTest() {
+                currentIndex = 0;
+                knowledgePoints = 50;          // стартовый средний уровень
+                testFinished = false;
+                helpTriggered = false;
+                renderQuestion();
+                updateProgressAndPercent();
+            }
+
+            // ---- ИНИЦИАЛИЗАЦИЯ: показать первый вопрос ----
+            restartTest();
+
+            // Кнопка рестарта
+            restartBtn.addEventListener('click', () => {
+                restartTest();
+            });
+
+            // Защита от случайного двойного запуска и правильное обновление прогресса
+        })();
+    </script>
+</body>
+</html>
